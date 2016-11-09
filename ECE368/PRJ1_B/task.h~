@@ -1,0 +1,11 @@
+#include<stdio.h>
+#include<math.h>
+#ifndef TASK_H
+#define TASK_H
+typedef struct Task
+{
+	int arrival_time; // 'A' for arrival 'D' for departure
+	int priority;
+	int duration; 	
+} Task;
+#endif

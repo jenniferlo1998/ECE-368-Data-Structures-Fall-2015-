@@ -1,0 +1,16 @@
+#include <stdio.h>      /* printf */
+#include <stdlib.h>     /* strtol */
+int main (){
+  char buffer[] = "2001 11 223   444   566";
+  char * end;
+  long int li;
+  end =buffer;
+  int base =10;
+  int ele = 0;
+  while(li=strtol (end, &end, base)){
+     printf("%ld \n", li);
+     ele += 1;
+  }
+  printf("\nNo of elements: %d\n", ele);
+  return 0;
+}

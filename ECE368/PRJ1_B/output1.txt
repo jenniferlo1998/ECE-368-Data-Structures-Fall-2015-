@@ -1,0 +1,5 @@
+avgWaitTime0:0.111111
+avgWaitTime1:0.111111
+avgQLen:XXXXX
+avgCPUUtil:0.30816
+avgBalance:XXXX

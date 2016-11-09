@@ -1,0 +1,184 @@
+#include<stdio.h>
+/*
+Group Members:
+1. Sthitapragyan Parida
+2. Eric Lees
+ECE 368 Project 1 (Spring 2015)
+*/
+#include <stdlib.h>
+#include<math.h>
+#ifndef LPQ_H
+#define LPQ_H
+typedef struct LPQ
+{
+	int arrival_time;
+	int duration; 
+		
+} LPQ;
+
+typedef struct LPQNode
+{
+	LPQ lpq;
+	struct LPQNode *link;
+} LPQNode;
+
+LPQNode *lpq_front,*lpq_rear;   /* Global Declarations */
+
+void lpqInsert(LPQ new_lpq)
+{
+	LPQNode *temp, *iter, *iter_front; 
+	temp = (LPQNode *)malloc(sizeof(LPQNode));
+
+	//iter = (LPQNode *)malloc(sizeof(LPQNode));
+	//iter_front = (LPQNode *)malloc(sizeof(LPQNode));
+
+	if( temp == NULL)
+	{
+		printf(" Out of Memory !! Overflow !!!");
+	}
+	else
+	{
+		temp->lpq.arrival_time = new_lpq.arrival_time;
+		temp->lpq.duration = new_lpq.duration;
+		//temp->lpq.duration = 0;
+
+		temp->link = NULL;
+		if(lpq_front == NULL)
+		{
+			lpq_front = lpq_rear = temp;
+		}
+		
+		else if(lpq_front == lpq_rear)
+		{
+			if(temp->lpq.arrival_time > lpq_front->lpq.arrival_time)
+			{
+				lpq_rear->link=temp;
+				lpq_rear = temp;
+			}
+			else
+			{
+				temp->link = lpq_front;
+				lpq_front = temp;
+			}
+		}
+		
+		else
+		{
+			
+			iter = lpq_front;
+			iter_front = iter;
+			if(temp->lpq.arrival_time <= lpq_front->lpq.arrival_time)
+			{
+				temp->link = lpq_front;
+				lpq_front = temp;
+			}
+			else if(temp->lpq.arrival_time >= lpq_rear->lpq.arrival_time)
+			{
+				lpq_rear->link = temp;
+				lpq_rear = temp;
+			}
+			else
+			{
+			while(iter != lpq_rear)
+			{
+	
+					if(iter->lpq.arrival_time >= temp->lpq.arrival_time)
+					{
+						iter_front->link = temp;
+						temp->link = iter;
+						break;
+					} 
+					iter_front = iter;
+					iter = iter->link;
+				}
+			}
+			if (iter == lpq_rear)
+			{
+				iter_front->link =temp;
+				temp->link = lpq_rear;
+			}		
+				
+			//lpq_rear->link=temp;
+			//lpq_rear = temp;
+			
+		}
+	}
+}
+ 
+LPQ lpqDelete()
+{
+	LPQ lpq;
+	LPQNode *temp;
+	if(lpq_front ==  NULL) 
+	{
+		printf(" Underflow!!!");
+		return;
+	}
+	else
+	{
+		temp=lpq_front;
+		lpq.arrival_time = lpq_front->lpq.arrival_time;
+		lpq.duration = lpq_front->lpq.duration;
+		if(lpq_front == lpq_rear) lpq_rear=NULL;
+		lpq_front=lpq_front->link;
+		temp->link=NULL;
+		free(temp);
+		return(lpq);
+	}
+}
+ 
+int getLPQCount()
+{
+	LPQNode *temp;
+	if( lpq_front == NULL) return 0;
+	else
+	{
+		temp=lpq_front;
+		int count = 0;
+		while(temp)
+		{
+			count = count + 1;
+			temp=temp->link;
+		}
+	return count;
+	}
+}
+int getLPQueueCount(long global_time)
+{
+	LPQNode *temp;
+	if( lpq_front == NULL) return 0;
+	else
+	{
+		temp=lpq_front;
+		int count = 0;
+		while(temp && (temp->lpq.arrival_time <= global_time))
+		{
+			count = count + 1;
+			temp=temp->link;
+		}
+	return count;
+	}
+}
+
+/*
+LPQ getLPQFront()
+{
+	LPQ lpq;
+	LPQNode *temp;
+	if(lpq_front ==  NULL) 
+	{
+		printf(" Underflow!!!");
+		return;
+	}
+	else
+	{
+		temp=lpq_front;
+		lpq.arrival_time = lpq_front->lpq.arrival_time;
+		lpq.duration = lpq_front->lpq.duration;
+		free(temp);
+		return(lpq);
+	}
+
+}
+*/	
+#endif

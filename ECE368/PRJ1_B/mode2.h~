@@ -1,0 +1,29 @@
+#include<stdio.h>
+#include<math.h>
+#include"event.h"
+void readFile (FILE *f) 
+{
+	char w0[1024], w1[1024], w2[1024];
+	count = 0;
+	while (fscanf(f, " %1023s", x) == 1)
+	{
+		switch(count%3)
+		{
+			case 0:
+				puts(w0);
+				break;
+			case 1:
+				puts(w1);
+				break;
+			case 2:
+				puts(w2);
+				break;
+				Event e1 = {} 
+
+		}
+		count = count + 1;
+		
+	}
+}
+
+

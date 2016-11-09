@@ -1,0 +1,64 @@
+#include"event.h"
+
+void Insert(Node new_node)
+{
+	Node *temp;
+	temp = (Node *)malloc(sizeof(Node));
+	if( temp == NULL)
+	{
+		printf(" Out of Memory !! Overflow !!!");
+	}
+	else
+	{
+		temp->event = new_node.event;
+		temp->link = NULL;
+		if(event_front == NULL)
+		{
+			event_front = event_rear = temp;
+		}
+		else
+		{
+			event_rear->link=temp;
+			event_rear = temp;
+		}
+	}
+}
+ 
+Event Delete()
+{
+	Event info;
+	Node *temp;
+	if(event_front ==  NULL) 
+	{
+		printf(" Underflow!!!");
+		return;
+	}
+	else
+	{
+		temp=event_front;
+		info=event_front->event;
+		if(event_front == event_rear) event_rear=NULL;
+		event_front=event_front->link;
+		temp->link=NULL;
+		free(temp);
+		return(info);
+	}
+}
+ 
+int getCount()
+{
+	Node *temp;
+	if( event_front == NULL) return 0;
+	else
+	{
+		temp=event_front;
+		int count = 0;
+		while(temp)
+		{
+			count = count + 1;
+			temp=temp->link;
+		}
+	return count;
+	}
+}
+

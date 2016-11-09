@@ -1,0 +1,82 @@
+#include<stdio.h>
+#include<math.h>
+#include<stdlib.h>
+#include"utility_funcs.h"
+#include<unistd.h>
+void generateRandomQueues(float, float, float, long, char *);
+long main(long argc, char **argv)
+{
+
+	srand(time(NULL));
+	float lambda0, lambda1, mu;
+	if (argc != 6)
+	{
+		printf("Invalid Use\n");
+		return -1;
+	}
+	lambda0 = atof(argv[1]); 
+	lambda1 = atof(argv[2]); 
+	mu = atof(argv[3]);
+	long num_sim =  atoi(argv[4]);
+	generateRandomQueues(lambda0, lambda1, mu, num_sim, argv[5]);
+	printf("%s created with random input\n", argv[5]);
+}
+void generateRandomQueues(float lambda0, float lambda1, float mu,long num_sim, char *fn)
+{
+	FILE *fp;
+	fp = fopen(fn, "w");
+	long i = 0;
+	if (fp == NULL) 
+	{
+		printf("Couldn't open file for writing.\n");
+		exit(0);
+	}
+	long count = 1;
+	long h_at = 0;
+	long nsh = randomInt(1, 32);
+	fprintf(fp, "%ld %ld %ld ", h_at, 0, nsh);
+	for(i = 0; i < nsh; i++)
+	{
+		long h_st = genRandInterval(mu);
+		fprintf(fp, "%ld ", h_st);
+	
+	}
+	fprintf(fp, "\n");
+
+	long l_at = 0;
+	long nsl = randomInt(1, 32);
+	fprintf(fp, "%ld %ld %ld ", l_at, 1, nsl);
+	for(i = 0; i < nsl; i++)
+	{
+		long h_st = genRandInterval(mu);
+		fprintf(fp, "%ld ", h_st);
+	
+	}
+	fprintf(fp, "\n");
+
+   	while(count < num_sim)
+	{
+		h_at += genRandInterval(lambda0);
+		l_at += genRandInterval(lambda1);
+		long nsh = randomInt(1, 32);
+		fprintf(fp, "%ld %ld %ld ", h_at, 0, nsh);
+		for(i = 0; i < nsh; i++)
+		{
+			long h_st = genRandInterval(mu);
+			fprintf(fp, "%ld ", h_st);
+		
+		}
+		fprintf(fp, "\n");
+
+		long nsl = randomlong(1, 32);
+		fprintf(fp, "%ld %ld %ld ", l_at, 1, nsl);
+		for(i = 0; i < nsh; i++)
+		{
+			long h_st = genRandInterval(mu);
+			fprintf(fp, "%ld ", h_st);
+		}
+		fprintf(fp, "\n");
+		count++;
+	}
+	fclose(fp);
+}

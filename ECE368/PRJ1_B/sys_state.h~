@@ -1,0 +1,24 @@
+#include<stdio.h>
+#include<math.h>
+#ifndef SYSSTATE_H
+#define SYSSTATE_H
+typedef struct SysState
+{
+	int low_priority_total_num; 
+	int high_priority_total_num;
+	int low_priority_current_num;
+	int high_priority_current_num;
+	int event_arrive0_total;
+	int event_depart0_total;
+	int event_arrive1_total;
+	int event_depart1_total;
+	int sum_weighted0_queue;	
+	int sum_weighted1_queue;
+	int event_service0_total;
+	int event_service1_total;	
+	int server_busy; //1 = True 0 = False
+	int server_busy_total;
+	int server_idle_total;  	
+	int global_time ;
+} SysState;
+#endif
